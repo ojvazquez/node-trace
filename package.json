@@ -1,0 +1,28 @@
+{
+  "name": "node-trace",
+  "version": "0.0.1",
+  "description": "Simple node tracing library",
+  "author": "Walberto Ibarra <waldo.ibarra92@gmail.com>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/walbertoibarra/node-trace"
+  },
+  "keywords": [
+    "trace",
+    "bunyan",
+    "log"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/walbertoibarra/node-trace/issues"
+  },
+  "homepage": "https://github.com/walbertoibarra/node-trace#readme",
+  "dependencies": {
+    "bunyan": "~1.8.5"
+  },
+  "analyze": true
+}
