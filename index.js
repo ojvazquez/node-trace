@@ -4,33 +4,40 @@ module.exports = (() => {
 	const bunyan = require('bunyan');
 	const fs = require('fs');
 
-	const LOG_FOLDER = 'logs/';
-	const log = bunyan.createLogger({
-		name: 'muamba-engine',
-		streams: [{
-			level: 'error',
-			path: `${LOG_FOLDER}error.json`
-		}, {
+	const ENV = process.env.NODE_ENV;
+	const LOG_FOLDER = './logs/';
+
+	// Create folder if it doesn't exist.
+	if (!fs.existsSync(LOG_FOLDER))
+		fs.mkdirSync(LOG_FOLDER);
+
+	// TODO: Add a way to close the streams.
+	var streams = [{
+		level: 'error',
+		path: `${LOG_FOLDER}error.json`
+	}, {
+		level: 'warn',
+		path: `${LOG_FOLDER}warn.json`
+	}, {
+		level: 'info',
+		path: `${LOG_FOLDER}info.json`
+	}];
+
+	// Don't log to console when running tests or production.
+	if (ENV !== 'production' && ENV !== 'test') {
+		streams.push(...[{
 			level: 'fatal',
 			stream: process.stderr
 		}, {
-			level: 'warn',
-			path: `${LOG_FOLDER}warn.json`
-		}, {
-			level: 'info',
-			path: `${LOG_FOLDER}info.json`
-		}, {
 			level: 'info',
 			stream: process.stdout
-		}]
-	});
-
-	// Create folder if it doesn't exist.
-	if (!fs.existsSync(LOG_FOLDER)) {
-		console.log('creating folder');
-
-		fs.mkdirSync(LOG_FOLDER);
+		}]);
 	}
+
+	const log = bunyan.createLogger({
+		name: 'muamba-engine',
+		streams: streams
+	});
 
 	// TODO: Improve this class.
 	class Trace {
