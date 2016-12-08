@@ -4,7 +4,6 @@ module.exports = (() => {
 	const bunyan = require('bunyan');
 	const fs = require('fs');
 
-	const ENV = process.env.NODE_ENV;
 	const LOG_FOLDER = './logs/';
 
 	// Create folder if it doesn't exist.
@@ -23,8 +22,8 @@ module.exports = (() => {
 		path: `${LOG_FOLDER}info.json`
 	}];
 
-	// Don't log to console when running tests or production.
-	if (ENV !== 'production' && ENV !== 'test') {
+	// Don't log to console when running tests.
+	if (process.env.NODE_ENV !== 'test') {
 		streams.push(...[{
 			level: 'fatal',
 			stream: process.stderr
