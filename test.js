@@ -5,15 +5,15 @@ const assert = require('assert');
 const fs = require('fs');
 const fse = require('fs-extra');
 
-const LOG_FOLDER = './logs/';
-process.env.NODE_ENV = 'test';
+const LOG_PATH = './logs_test/';
 
-fse.removeSync(LOG_FOLDER);
+fse.removeSync(LOG_PATH);
 const Trace = require('./');
+Trace.init({ logPath: LOG_PATH, isDev: false });
 
 describe('Trace', () => {
   it('should have created logs/ folder if it did not exist', () => {
-    assert.strictEqual(fs.existsSync(LOG_FOLDER), true);
+    assert.strictEqual(fs.existsSync(LOG_PATH), true);
   });
 
   it('should throw an exception if tried to instantiate with new', () => {
@@ -27,29 +27,29 @@ describe('Trace', () => {
 describe('Trace.info()', () => {
   before(() => {
     Trace.info('kill me please');
-    fse.copySync(`${LOG_FOLDER}info.json`, `${LOG_FOLDER}info-tmp.json`);
+    fse.copySync(`${LOG_PATH}info.json`, `${LOG_PATH}info-tmp.json`);
   });
 
   it('should create info.json file', () => {
     assert.doesNotThrow(() => {
-      fs.accessSync(`${LOG_FOLDER}info.json`);
+      fs.accessSync(`${LOG_PATH}info.json`);
     }, TypeError);
   });
 
   it('should add the messages to log file in JSON format', () => {
     assert.doesNotThrow(() => {
-      JSON.parse(fs.readFileSync(`${LOG_FOLDER}info-tmp.json`, 'utf-8'));
+      JSON.parse(fs.readFileSync(`${LOG_PATH}info-tmp.json`, 'utf-8'));
     });
   });
 
   it('should add "kill me please" message to log file', () => {
-    let message = require(`${LOG_FOLDER}info-tmp.json`).msg;
+    let message = require(`${LOG_PATH}info-tmp.json`).msg;
 
     assert.strictEqual(message, 'kill me please');
   });
 
   after(() => {
-    fs.unlinkSync(`${LOG_FOLDER}info-tmp.json`);
+    fs.unlinkSync(`${LOG_PATH}info-tmp.json`);
   });
 });
 
@@ -57,65 +57,70 @@ describe('Trace.warn()', () => {
   before(() => {
     Trace.warn('kill me please');
 
-    fse.copySync(`${LOG_FOLDER}warn.json`, `${LOG_FOLDER}warn-tmp.json`);
+    fse.copySync(`${LOG_PATH}warn.json`, `${LOG_PATH}warn-tmp.json`);
   });
 
   it('should create warn.json file', () => {
     assert.doesNotThrow(() => {
-      fs.accessSync(`${LOG_FOLDER}warn.json`);
+      fs.accessSync(`${LOG_PATH}warn.json`);
     }, TypeError);
   });
 
   it('should add the messages to log file in JSON format', () => {
     assert.doesNotThrow(() => {
-      JSON.parse(fs.readFileSync(`${LOG_FOLDER}warn-tmp.json`, 'utf-8'));
+      JSON.parse(fs.readFileSync(`${LOG_PATH}warn-tmp.json`, 'utf-8'));
     });
   });
 
   it('should add "kill me please" message to log file', () => {
-    let message = require(`${LOG_FOLDER}warn-tmp.json`).msg;
+    let message = require(`${LOG_PATH}warn-tmp.json`).msg;
 
     assert.strictEqual(message, 'kill me please');
   });
 
   after(() => {
-    fs.unlinkSync(`${LOG_FOLDER}warn-tmp.json`);
+    fs.unlinkSync(`${LOG_PATH}warn-tmp.json`);
   });
 });
 
 describe('Trace.error()', () => {
   before(() => {
     let err = new Error('Something went wrong');
-    Trace.error(err, 'kill me please');
+    Trace.error('kill me please', err);
 
-    fse.copySync(`${LOG_FOLDER}error.json`, `${LOG_FOLDER}error-tmp.json`);
+    fse.copySync(`${LOG_PATH}error.json`, `${LOG_PATH}error-tmp.json`);
   });
 
   it('should create error.json file', () => {
     assert.doesNotThrow(() => {
-      fs.accessSync(`${LOG_FOLDER}error.json`);
+      fs.accessSync(`${LOG_PATH}error.json`);
     }, TypeError);
   });
 
   it('should add the messages to log file in JSON format', () => {
     assert.doesNotThrow(() => {
-      JSON.parse(fs.readFileSync(`${LOG_FOLDER}error-tmp.json`, 'utf-8'));
+      JSON.parse(fs.readFileSync(`${LOG_PATH}error-tmp.json`, 'utf-8'));
     });
   });
 
   it('should add "kill me please" message to log file', () => {
-    let message = require(`${LOG_FOLDER}error-tmp.json`).msg;
+    let message = require(`${LOG_PATH}error-tmp.json`).msg;
 
-    assert.strictEqual(message, 'kill me please');
+    assert.ok(message.includes('kill me please'));
   });
 
   it('should include error stack along the message', () => {
-    let entry = require(`${LOG_FOLDER}error-tmp.json`);
+    let message = require(`${LOG_PATH}error-tmp.json`).msg;
 
-    assert.ok(entry.err.stack.toString().includes('Something went wrong'));
+    assert.ok(message.includes('Something went wrong'));
   });
 
   after(() => {
-    fs.unlinkSync(`${LOG_FOLDER}error-tmp.json`);
+    fs.unlinkSync(`${LOG_PATH}error-tmp.json`);
   });
+});
+
+// TODO: Close stream and remove the LOG_PATH.
+after(() => {
+  // fse.removeSync(LOG_PATH);
 });
