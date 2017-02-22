@@ -4,10 +4,10 @@
 
 Simple node tracing library (ES6) for logging to stdout, stderr and JSON files using [bunyan](https://github.com/trentm/node-bunyan).
 
-## Instalation
+## Installation
 
 ```
-$ npm install --save ojvazquez/node-trace
+$ npm i -S ojvazquez/node-trace
 ```
 
 ## Example
@@ -15,12 +15,19 @@ $ npm install --save ojvazquez/node-trace
 ```js
 const Trace = require('node-trace');
 
+// Should call init() once before using the library.
+Trace.init({
+  appName: 'node-trace',
+  logFolder: './logs',
+  isDev: false
+});
+
 Trace.info('Hello world');
 
 try {
 	throw new Error();
 } catch(err) {
-	Trace.error(err, 'Something went wrong');
+	Trace.error('Something went wrong', err);
 }
 ```
 
@@ -30,20 +37,60 @@ try {
 
 > All functions on class Trace are **static**, meaning you that should not instance it.
 
-### Trace.info([fields], msg)
+### Trace.init([options])
 
-`fields`: Object (optional), merged into the log record.
+> Should call this function once before using the library.
 
-`msg`: String, message to log on *info.json* file.
+`options`: an optional object containing some configuration:
+- **appName**: the name of your application, defaults to `node-trace`
+- **logFolder**: where to store the log files, defaults to `logs/`
+- **isDev**: whether to output to files or stdout, defaults to false if
+*NODE_ENV* is *test* or *production*
 
-### Trace.warn([fields], msg)
+### Trace.fatal(msg, [err])
 
-`fields`: Object (optional), merged into the log record.
+> The service/app is going to stop or become unusable now. An operator should definitely look into this soon.
 
-`msg`: String, message to log on *warn.json* file.
-
-### Trace.error([err], msg)
+`msg`: String, message to log on *error.json* file.
 
 `err`: Object (optional), exception stack.
 
+### Trace.error(msg, [err])
+
+> Fatal for a particular request, but the service/app continues servicing other requests. An operator should look at this soon(ish).
+
 `msg`: String, message to log on *error.json* file.
+
+`err`: Object (optional), exception stack.
+
+### Trace.warn(msg, [fields])
+
+> A note on something that should probably be looked at by an operator eventually.
+
+`msg`: String, message to log on *warn.json* file.
+
+`fields`: Object (optional), merged into the log record.
+
+### Trace.info(msg, [fields])
+
+> Detail on regular operation.
+
+`msg`: String, message to log on *info.json* file.
+
+`fields`: Object (optional), merged into the log record.
+
+### Trace.debug(msg, [fields])
+
+> Anything else, i.e. too verbose to be included in "info" level.
+
+`msg`: String, message to log on *info.json* file.
+
+`fields`: Object (optional), merged into the log record.
+
+### Trace.trace(msg, [fields])
+
+> Logging from external libraries used by your app or very detailed application logging.
+
+`msg`: String, message to log on *info.json* file.
+
+`fields`: Object (optional), merged into the log record.
