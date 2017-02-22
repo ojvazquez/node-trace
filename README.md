@@ -7,13 +7,13 @@ Simple node tracing library (ES6) for logging to stdout, stderr and JSON files u
 ## Installation
 
 ```
-$ npm i -S ojvazquez/node-trace
+$ npm i -S @ojvazquez/node-trace
 ```
 
 ## Example
 
 ```js
-const Trace = require('node-trace');
+const Trace = require('@ojvazquez/node-trace');
 
 // Should call init() once before using the library.
 Trace.init({

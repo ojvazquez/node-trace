@@ -1,5 +1,5 @@
 {
-  "name": "node-trace",
+  "name": "@ojvazquez/node-trace",
   "version": "1.0.0",
   "description": "Simple node tracing library",
   "author": "Walberto Ibarra <waldo.ibarra92@gmail.com>",
