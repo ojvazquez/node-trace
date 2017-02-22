@@ -97,7 +97,6 @@ module.exports = (() => {
 
   function initialize (options) {
     if (!initialized) {
-      console.log('initializing');
       initialized = true;
       options = options || {};
 
