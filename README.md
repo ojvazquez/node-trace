@@ -1,7 +1,4 @@
-# node-trace
-
-[![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg?style=flat-square)](https://github.com/Flet/semistandard)
-
+# node-trace [![Build Status](https://travis-ci.org/ojvazquez/node-trace.svg?branch=master)](https://travis-ci.org/ojvazquez/node-trace) [![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg?style=flat-square)](https://github.com/Flet/semistandard)
 Simple node tracing library (ES6) for logging to stdout, stderr and JSON files using [bunyan](https://github.com/trentm/node-bunyan).
 
 ## Installation
