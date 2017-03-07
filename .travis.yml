@@ -1,8 +1,11 @@
 language: node_js
 node_js:
-    - "6.9.5"
+  - "6.9.5"
 env:
-    - NODE_ENV=test
+  - NODE_ENV=test
 script:
-    - npm run semistandard
-    - npm test
+  - npm run semistandard
+  - npm test
+branches:
+  only:
+    - master
