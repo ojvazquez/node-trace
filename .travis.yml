@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+    - "iojs"
+    - "6.9.5"
+env:
+    - NODE_ENV=test
+script:
+    - npm run semistandard
+    - npm test
