@@ -1,16 +1,16 @@
-# node-trace [![Build Status](https://travis-ci.org/ojvazquez/node-trace.svg?branch=master)](https://travis-ci.org/ojvazquez/node-trace) [![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg?style=flat-square)](https://github.com/Flet/semistandard)
+# node-trace [![Build Status](https://travis-ci.org/w4spe/node-trace.svg?branch=master)](https://travis-ci.org/w4spe/node-trace) [![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg?style=flat-square)](https://github.com/Flet/semistandard)
 Simple node tracing library (ES6) for logging to stdout, stderr and JSON files using [bunyan](https://github.com/trentm/node-bunyan).
 
 ## Installation
 
 ```
-$ npm i -S @ojvazquez/node-trace
+$ npm i -S @w4spe/node-trace
 ```
 
 ## Example
 
 ```js
-const Trace = require('@ojvazquez/node-trace');
+const Trace = require('@w4spe/node-trace');
 
 // Should call init() once before using the library.
 Trace.init({
