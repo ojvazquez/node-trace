@@ -3,12 +3,14 @@
 
 const assert = require('assert');
 const fs = require('fs');
+const path = require('path');
+
 const fse = require('fs-extra');
 
-const LOG_PATH = './logs_test/';
+const LOG_PATH = path.resolve('./logs_test/') + '/';
 
 fse.removeSync(LOG_PATH);
-const Trace = require('./');
+const Trace = require('../index');
 Trace.init({ logPath: LOG_PATH, isDev: false });
 
 describe('Trace', () => {
